@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Baking App</string>
+
+    <!--Dialogs-->
+    <string name="network_dialog_title">No Internet Connection</string>
+    <string name="network_dialog_message">Please reconnect to bake these delicious recipes : )</string>
+    <string name="ok">OK</string>
+</resources>
