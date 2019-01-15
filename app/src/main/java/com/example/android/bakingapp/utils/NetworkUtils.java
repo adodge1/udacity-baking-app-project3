@@ -7,9 +7,10 @@ import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.widget.Button;
 
+import android.widget.Button;
 import com.example.android.bakingapp.R;
+
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,7 +28,7 @@ public class NetworkUtils {
      * @return The URL to use to query the Recipies.
      * https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json
      */
-    public static URL buildUrl(String movieDBSortBy, String movieDBapiKEY) {
+    public static URL buildUrl() {
         Uri.Builder builder = new Uri.Builder();
 
             builder.scheme("https")
@@ -106,5 +107,8 @@ public class NetworkUtils {
         Button okButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
         okButton.setTextColor(Color.RED);
     }
+
+
+
 
 }

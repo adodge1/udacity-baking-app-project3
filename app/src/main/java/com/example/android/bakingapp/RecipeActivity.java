@@ -1,7 +1,9 @@
 package com.example.android.bakingapp;
 
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
 
 import com.example.android.bakingapp.ui.recipe.RecipeFragment;
 
@@ -17,4 +19,5 @@ public class RecipeActivity extends AppCompatActivity {
                     .commitNow();
         }
     }
+
 }
