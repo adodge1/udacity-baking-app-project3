@@ -11,45 +11,47 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.bakingapp.model.Recipe;
+import com.example.android.bakingapp.ui.recipe.RecipeFragment;
 
 import java.util.ArrayList;
 
 
 public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.ItemRecyclerViewHolder> {
 
+    private final RecipeFragment.OnRecipeSelectedInterface mListener;
     private ArrayList<Recipe> mRecipies;
-   // private final ItemRecyclerAdapterOnClickHandler mClickHandler;
 
-    public interface ItemRecyclerAdapterOnClickHandler {
-        void onClick(Recipe selectedRecipe);
+
+    public RecipeListAdapter(RecipeFragment.OnRecipeSelectedInterface listener) {
+        mListener = listener;
     }
 
-   // public RecipeListAdapter(ItemRecyclerAdapterOnClickHandler clickHandler) {
-   //     mClickHandler = clickHandler;
-   // }
 
 
 
     public class ItemRecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public final ImageView mRecipeImageView;
-        public final TextView mRecipeTextView;
+        private final ImageView mRecipeImageView;
+        private final TextView mRecipeTextView;
+        private int mIndex;
+        private Recipe recipe;
 
-        public ItemRecyclerViewHolder(View view) {
+        private ItemRecyclerViewHolder(View view) {
             super(view);
             view.setOnClickListener(this);
             mRecipeImageView = view.findViewById(R.id.recipeItemImage);
             mRecipeTextView = view.findViewById(R.id.recipeItemText);
         }
 
-
+        public void bindView(int position) {
+            mIndex = position;
+            recipe = mRecipies.get(position);
+            mRecipeTextView.setText(recipe.getRecipeName());
+        }
 
         @Override
         public void onClick(View view) {
-            // Get the item clicked
-           // Recipe myMovieSelected = mRecipies.get(getAdapterPosition());
-            // Then you can do any actions on it, for example:
-          //  mClickHandler.onClick(myMovieSelected);
+            mListener.onListRecipeSelected(mIndex,recipe);
         }
 
 
@@ -76,9 +78,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.It
 
     @Override
     public void onBindViewHolder(ItemRecyclerViewHolder holder, int position) {
-        Recipe recipe = mRecipies.get(position);
-        TextView textViewName =  holder.mRecipeTextView;
-        textViewName.append(recipe.getRecipeName());
+        ((ItemRecyclerViewHolder) holder).bindView(position);
     }
 
 

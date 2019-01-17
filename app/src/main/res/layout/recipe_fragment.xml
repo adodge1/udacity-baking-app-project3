@@ -5,16 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".ui.recipe.RecipeFragment">
 
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:visibility="gone"
-        android:layout_gravity="center"
-        android:layout_centerInParent="true"/>
+
 
     <android.support.v7.widget.RecyclerView
-        android:layout_below="@id/progress_bar"
         android:id="@+id/rv_recipeList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
