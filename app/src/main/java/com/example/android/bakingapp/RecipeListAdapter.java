@@ -78,7 +78,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.It
 
     @Override
     public void onBindViewHolder(ItemRecyclerViewHolder holder, int position) {
-        ((ItemRecyclerViewHolder) holder).bindView(position);
+          holder.bindView(position);
     }
 
 

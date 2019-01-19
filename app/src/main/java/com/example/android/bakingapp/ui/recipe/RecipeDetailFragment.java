@@ -1,0 +1,48 @@
+package com.example.android.bakingapp.ui.recipe;
+
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.example.android.bakingapp.R;
+import com.example.android.bakingapp.model.Recipe;
+
+public class RecipeDetailFragment extends Fragment {
+
+    //put arguments in a bundle
+    public static final String KEY_RECIPE_INDEX = "recipe_index";
+    public static final String KEY_RECIPE_OBJ = "recipe_obj";
+
+
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        int index =getArguments().getInt(KEY_RECIPE_INDEX);
+        Recipe recipeClicked = getArguments().getParcelable(KEY_RECIPE_OBJ);
+
+        //   Toast.makeText(getActivity(),recipeClicked.getRecipeName(), Toast.LENGTH_SHORT).show();
+        getActivity().setTitle(recipeClicked.getRecipeName());//set the title but put it back the old one onStop()
+
+      View view = inflater.inflate(R.layout.ingredients_steps_fragment,container,false);
+
+      //TODO need to create an adapter for this new recycler view like trailers
+
+
+        return view;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        getActivity().setTitle(getResources().getString(R.string.app_name));
+    }
+}
