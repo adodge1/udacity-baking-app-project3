@@ -7,4 +7,6 @@
     <string name="network_dialog_title">No Internet Connection</string>
     <string name="network_dialog_message">Please reconnect to bake these delicious recipes : )</string>
     <string name="ok">OK</string>
+    <string name="ingredientsTitle">Ingredients</string>
+    <string name="stepsTitle">Steps</string>
 </resources>

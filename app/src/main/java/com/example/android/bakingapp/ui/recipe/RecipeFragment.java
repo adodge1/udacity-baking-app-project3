@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
 public class RecipeFragment  extends Fragment {
 
-    ////FRAGMENT INTERFACE TO ADD CLICK this needs to be inmplemented on the activity
+    ////FRAGMENT INTERFACE TO ADD CLICK this needs to be implemented on the activity
     public interface OnRecipeSelectedInterface{
         //method called to handle when a recipe is selected
         void onListRecipeSelected(int index ,Recipe recipes);
@@ -55,11 +55,8 @@ public class RecipeFragment  extends Fragment {
 
         View view = inflater.inflate(R.layout.recipe_fragment, container, false);
         RecyclerView recyclerView = view.findViewById(R.id.rv_recipeList);
-
         mRecipeListAdapter = new RecipeListAdapter(listener);
-
         recyclerView.setAdapter(mRecipeListAdapter);
-
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 

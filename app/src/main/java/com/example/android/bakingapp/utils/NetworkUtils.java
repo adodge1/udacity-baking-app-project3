@@ -148,8 +148,8 @@ public class NetworkUtils {
             // For each movie in the baseJsonResponse, create a {@link Movie} object
             for (int i = 0; i < recipesJSON.length(); i++) {
 
-                JSONObject recipe = recipesJSON.getJSONObject(i);
-                Recipe recipeObject = createRecipeObject(recipe);
+                JSONObject recipeJSON = recipesJSON.getJSONObject(i);
+                Recipe recipeObject = createRecipeObject(recipeJSON);
 
 
 
@@ -181,12 +181,17 @@ public class NetworkUtils {
 
             String recipeName = recipeJSON.getString("name");
             ArrayList<Ingredient> recipeIngredients = createRecipeIngredientsArray(recipeJSON.optJSONArray("ingredients"));
+
             ArrayList<Step> recipeSteps = createRecipeStepsArray(recipeJSON.optJSONArray("steps"));
             int recipeServings = Integer.parseInt(recipeJSON.getString("servings"));
 
             String recipeImage = buildRecipeName(recipeJSON);
 
-            return new Recipe(recipeName, recipeIngredients, recipeSteps, recipeServings, recipeImage);
+            Recipe newRecipe = new Recipe(recipeName, recipeIngredients, recipeSteps, recipeServings, recipeImage);
+            newRecipe.setRecipeIngredients(recipeIngredients);
+            newRecipe.setRecipeSteps(recipeSteps);
+
+            return newRecipe;
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -286,6 +291,7 @@ public class NetworkUtils {
 
                 // Add the recipe step
                 recipeIngredientsArray.add(recipeIngredient);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

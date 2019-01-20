@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.ItemRecyclerViewHolder> {
 
     private final RecipeFragment.OnRecipeSelectedInterface mListener;
-    private ArrayList<Recipe> mRecipies;
+    private ArrayList<Recipe> mRecipes;
 
 
     public RecipeListAdapter(RecipeFragment.OnRecipeSelectedInterface listener) {
@@ -39,13 +39,13 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.It
         private ItemRecyclerViewHolder(View view) {
             super(view);
             view.setOnClickListener(this);
-            mRecipeImageView = view.findViewById(R.id.recipeItemImage);
-            mRecipeTextView = view.findViewById(R.id.recipeItemText);
+            mRecipeImageView = view.findViewById(R.id.iv_recipeItemImage);
+            mRecipeTextView = view.findViewById(R.id.tv_recipeItemText);
         }
 
         public void bindView(int position) {
             mIndex = position;
-            recipe = mRecipies.get(position);
+            recipe = mRecipes.get(position);
             mRecipeTextView.setText(recipe.getRecipeName());
         }
 
@@ -84,12 +84,12 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.It
 
     @Override
     public int getItemCount() {
-        if (null == mRecipies) return 0;
-        return mRecipies.size();
+        if (null == mRecipes) return 0;
+        return mRecipes.size();
     }
 
     public void setRecipeData (ArrayList<Recipe> recipeData){
-        mRecipies = recipeData;
+        mRecipes = recipeData;
         notifyDataSetChanged();
     }
 

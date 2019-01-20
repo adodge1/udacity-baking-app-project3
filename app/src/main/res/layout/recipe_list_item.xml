@@ -9,7 +9,7 @@
         android:scaleType="fitCenter"
         android:layout_margin="8dp"
         android:layout_weight="1"
-        android:id="@+id/recipeItemImage"/>
+        android:id="@+id/iv_recipeItemImage"/>
 
     <TextView
         android:layout_width="0dp"
@@ -17,5 +17,5 @@
         android:layout_weight="3"
         android:layout_margin="12dp"
         android:textSize="24sp"
-        android:id="@+id/recipeItemText"/>
+        android:id="@+id/tv_recipeItemText"/>
 </LinearLayout>
