@@ -41,22 +41,7 @@ public class RecipeStepDetailFragment extends Fragment {
         RecipeFragment.OnRecipeSelectedInterface listener = (RecipeFragment.OnRecipeSelectedInterface) getActivity();
 
         View view = inflater.inflate(R.layout.step_detail_fragment, container, false);
-     /*   ViewPager viewPager = view.findViewById(R.id.viewPager);
-        //fragments within fragments we use ChildFragmentManager
-
-        viewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
-            @Override
-            public int getCount() {
-                int numberSteps = mMinRecipe.getRecipeSteps().size();
-                return numberSteps;
-            }
-
-            @Override
-            public Fragment getItem(int position) {
-                return null;
-            }
-        });*/
-
+    
         return view;
 
     }
