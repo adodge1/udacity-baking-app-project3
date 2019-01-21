@@ -7,17 +7,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.android.bakingapp.R;
+
+import com.example.android.bakingapp.RecipeActivity;
 import com.example.android.bakingapp.model.Recipe;
 import com.example.android.bakingapp.model.Step;
+import com.example.android.bakingapp.ui.recipe.RecipeStepDetailFragment;
 
 import java.util.ArrayList;
 
 public class StepsListAdapter extends RecyclerView.Adapter<StepsListAdapter.StepRecyclerViewHolder> {
 
     private ArrayList<Step> mSteps;
-    private StepsListAdapter.StepRecyclerAdapterOnClickHandler mClickHandler;
+
     private Recipe mRecipe;
     private Context mContext;
 
@@ -31,13 +35,6 @@ public class StepsListAdapter extends RecyclerView.Adapter<StepsListAdapter.Step
     }
 
 
-    public interface StepRecyclerAdapterOnClickHandler {
-        void onClick(Step selectedStep);
-    }
-
-    public void StepRecyclerAdapterOnClickHandler(StepsListAdapter.StepRecyclerAdapterOnClickHandler clickHandler) {
-        mClickHandler = clickHandler;
-    }
 
     public class StepRecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -56,9 +53,12 @@ public class StepsListAdapter extends RecyclerView.Adapter<StepsListAdapter.Step
         @Override
         public void onClick(View view) {
             // Get the item clicked
-            Step myStepSelected = mSteps.get(getAdapterPosition());
-            // Then you can do any actions on it, for example:
-            mClickHandler.onClick(myStepSelected);
+             Step myStepSelected = mSteps.get(getAdapterPosition());
+
+            //call click interface here because this are buttons
+            ((RecipeActivity)mContext).onListStepSelected(getAdapterPosition(),myStepSelected,mRecipe);
+
+
         }
 
 

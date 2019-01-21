@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.android.bakingapp.R;
 
 import com.example.android.bakingapp.model.Recipe;
+
 import com.example.android.bakingapp.model.Step;
 import com.example.android.bakingapp.utils.IngredientsListAdapter;
 import com.example.android.bakingapp.utils.StepsListAdapter;
@@ -22,13 +23,20 @@ import com.example.android.bakingapp.utils.StepsListAdapter;
 
 public class RecipeDetailFragment extends Fragment {
 
+    ////FRAGMENT INTERFACE TO ADD CLICK this needs to be implemented on the activity
+    public interface OnStepSelectedInterface{
+        //method called to handle when a recipe is selected
+        void onListStepSelected(int index , Step steps,Recipe mainRecipe);
 
+    }
 
     ///AFTER CLICK on RECIPE WE DO THIS
 
     //put arguments in a bundle
     public static final String KEY_RECIPE_INDEX = "recipe_index";
     public static final String KEY_RECIPE_OBJ = "recipe_obj";
+
+
 
     private IngredientsListAdapter mIgredientListAdapter;
     private StepsListAdapter mStepListAdapter;
@@ -38,6 +46,9 @@ public class RecipeDetailFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+
+
+
 
         int index =getArguments().getInt(KEY_RECIPE_INDEX);
         Recipe recipeClicked = getArguments().getParcelable(KEY_RECIPE_OBJ);
@@ -68,6 +79,7 @@ public class RecipeDetailFragment extends Fragment {
          mStepListAdapter.setStepData(recipeClicked.getRecipeSteps());
         return view;
     }
+
 
 
 

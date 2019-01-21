@@ -1,23 +1,26 @@
 package com.example.android.bakingapp;
 
 
+
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.Toast;
+
 
 
 import com.example.android.bakingapp.model.Recipe;
+import com.example.android.bakingapp.model.Step;
 import com.example.android.bakingapp.ui.recipe.RecipeFragment;
 import com.example.android.bakingapp.ui.recipe.RecipeDetailFragment;
+import com.example.android.bakingapp.ui.recipe.RecipeStepDetailFragment;
 
 
-
-public class RecipeActivity extends AppCompatActivity  implements RecipeFragment.OnRecipeSelectedInterface{
+public class RecipeActivity extends AppCompatActivity  implements RecipeFragment.OnRecipeSelectedInterface, RecipeDetailFragment.OnStepSelectedInterface {
 
     public static final String RECIPE_FRAGMENT ="recipe_fragment";
-    public static final String VIEWPAGER_FRAGMENT ="viewpager_fragment";
+    public static final String RECIPE_DETAIL_FRAGMENT ="ingredients_steps_fragment";
+    public static final String RECIPE_STEP_DETAIL_FRAGMENT ="step_detail_fragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,10 +30,7 @@ public class RecipeActivity extends AppCompatActivity  implements RecipeFragment
         RecipeFragment savedFragment = (RecipeFragment) getSupportFragmentManager().findFragmentByTag(RECIPE_FRAGMENT);
 
         if (savedFragment == null) {
-            /*RecipeFragment fragment = new RecipeFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.placeholder,fragment)
-                    .commitNow();*/
+
             RecipeFragment fragment = new RecipeFragment();
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction =  fragmentManager.beginTransaction();
@@ -42,11 +42,6 @@ public class RecipeActivity extends AppCompatActivity  implements RecipeFragment
     @Override
     public void onListRecipeSelected(int index,  Recipe recipeClicked) {
 
-
-        /*RecipeDetailFragment detailFragment = new RecipeDetailFragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.placeholder, detailFragment).addToBackStack(null)
-                .commitNow();*/
         RecipeDetailFragment detailFragment = new RecipeDetailFragment();
 
         Bundle bundle =new Bundle();
@@ -55,10 +50,29 @@ public class RecipeActivity extends AppCompatActivity  implements RecipeFragment
         detailFragment.setArguments(bundle);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction =  fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.placeholder,detailFragment,VIEWPAGER_FRAGMENT);
+        fragmentTransaction.replace(R.id.placeholder,detailFragment,RECIPE_DETAIL_FRAGMENT);
         fragmentTransaction.addToBackStack(null);// null because we are going back one transaction at the time
         fragmentTransaction.commit();
     }
+
+    @Override
+    public void onListStepSelected(int index,  Step stepClicked, Recipe mainRecipeObj) {
+
+        RecipeStepDetailFragment detailFragment = new RecipeStepDetailFragment();
+
+        Bundle bundle =new Bundle();
+        bundle.putInt(RecipeStepDetailFragment.KEY_STEP_INDEX,index);
+        bundle.putParcelable(RecipeStepDetailFragment.KEY_STEP_OBJ,stepClicked);
+        bundle.putParcelable(RecipeStepDetailFragment.KEY_RECIPE_OF_STEP_OBJ,mainRecipeObj);
+        detailFragment.setArguments(bundle);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction =  fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.placeholder,detailFragment,RECIPE_STEP_DETAIL_FRAGMENT);
+        fragmentTransaction.addToBackStack(null);// null because we are going back one transaction at the time
+        fragmentTransaction.commit();
+    }
+
+
 
 
 
