@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.RecipeListAdapter;
 import com.example.android.bakingapp.model.Recipe;
-import com.example.android.bakingapp.model.Step;
 import com.example.android.bakingapp.utils.NetworkUtils;
 
 import java.io.IOException;

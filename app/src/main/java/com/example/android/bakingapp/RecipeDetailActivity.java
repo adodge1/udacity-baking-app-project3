@@ -5,26 +5,20 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
-
 import com.example.android.bakingapp.model.Recipe;
-import com.example.android.bakingapp.model.Step;
-import com.example.android.bakingapp.ui.recipe.RecipeStepDetailFragment;
+import com.example.android.bakingapp.ui.recipe.RecipeDetailFragment;
 
 
-public class StepDetailActivity extends AppCompatActivity    {
-    public static final String STEP_FRAGMENT ="step_fragment";
-
-    public Step stepObj;
-    public Recipe recipeObj;
+public class RecipeDetailActivity extends AppCompatActivity {
+    public static final String RECIPE_DETAIL_FRAGMENT ="ingredients_steps_fragment";
+    Recipe recipeObj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.step_detail_activity);
-
+        setContentView(R.layout.recipe_detail_activity);
 
 
         final Intent intent = getIntent();
@@ -32,28 +26,27 @@ public class StepDetailActivity extends AppCompatActivity    {
             closeOnError();
         }
         try {
-            stepObj = intent.getParcelableExtra("Step.Details");
-            recipeObj = intent.getParcelableExtra("Recipe.Info");
 
+            recipeObj = intent.getParcelableExtra("Recipe.Details");
+            this.setTitle(recipeObj.getRecipeName());
 
-         }catch (Exception e){
-        e.printStackTrace();
+        }catch (Exception e){
 
+            e.printStackTrace();
         }
 
 
-        RecipeStepDetailFragment  savedFragment = (RecipeStepDetailFragment) getSupportFragmentManager().findFragmentByTag(STEP_FRAGMENT);
+        RecipeDetailFragment savedFragment = (RecipeDetailFragment) getSupportFragmentManager().findFragmentByTag(RECIPE_DETAIL_FRAGMENT);
 
         if (savedFragment == null) {
 
-            RecipeStepDetailFragment fragment = new RecipeStepDetailFragment();
+            RecipeDetailFragment fragment = new RecipeDetailFragment();
             Bundle bundle =new Bundle();
-            bundle.putParcelable(RecipeStepDetailFragment.KEY_STEP_OBJ,stepObj);
-            bundle.putParcelable(RecipeStepDetailFragment.KEY_RECIPE_OBJ,recipeObj);
+            bundle.putParcelable(RecipeDetailFragment.KEY_RECIPE_OBJ,recipeObj);
             fragment.setArguments(bundle);
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction =  fragmentManager.beginTransaction();
-            fragmentTransaction.add(R.id.placeholder2,fragment,STEP_FRAGMENT);
+            fragmentTransaction.add(R.id.placeholder1,fragment,RECIPE_DETAIL_FRAGMENT);
             fragmentTransaction.commit();
         }
     }
@@ -63,6 +56,7 @@ public class StepDetailActivity extends AppCompatActivity    {
         finish();
         Toast.makeText(this, R.string.detail_error_message, Toast.LENGTH_SHORT).show();
     }
+
 
 
 }

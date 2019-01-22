@@ -7,13 +7,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+
 import android.widget.TextView;
 
 import com.example.android.bakingapp.model.Recipe;
 import com.example.android.bakingapp.ui.recipe.RecipeFragment;
 
 import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.ItemRecyclerViewHolder> {
@@ -31,16 +34,20 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.It
 
     public class ItemRecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private final ImageView mRecipeImageView;
-        private final TextView mRecipeTextView;
+
+
+
+        @BindView(R.id.tv_recipeItemText)
+        TextView mRecipeTextView;
+
+
         private int mIndex;
         private Recipe recipe;
 
         private ItemRecyclerViewHolder(View view) {
             super(view);
             view.setOnClickListener(this);
-            mRecipeImageView = view.findViewById(R.id.iv_recipeItemImage);
-            mRecipeTextView = view.findViewById(R.id.tv_recipeItemText);
+            ButterKnife.bind(this, view);
         }
 
         public void bindView(int position) {
