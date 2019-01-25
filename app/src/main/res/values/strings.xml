@@ -2,8 +2,8 @@
     <string name="app_name">Baking App</string>
 
     <!--Dialogs-->
-    <string name="first">Go to next</string>
-    <string name="last">Go to previous</string>
+    <string name="next">Next Step</string>
+    <string name="prev">Previous Step</string>
     <string name="network_dialog_title">No Internet Connection</string>
     <string name="network_dialog_message">Please reconnect to bake these delicious recipes : )</string>
     <string name="ok">OK</string>
