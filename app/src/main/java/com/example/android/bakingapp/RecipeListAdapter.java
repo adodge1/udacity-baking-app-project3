@@ -8,10 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.bakingapp.model.Recipe;
+import com.example.android.bakingapp.model.Step;
 import com.example.android.bakingapp.ui.recipe.RecipeFragment;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -21,24 +24,26 @@ import butterknife.ButterKnife;
 
 public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.ItemRecyclerViewHolder> {
 
-    private final RecipeFragment.OnRecipeSelectedInterface mListener;
+    private  RecipeFragment.OnRecipeSelectedInterface mListener;
     private ArrayList<Recipe> mRecipes;
+
+    LayoutInflater mInflater;
 
 
     public RecipeListAdapter(RecipeFragment.OnRecipeSelectedInterface listener) {
         mListener = listener;
     }
 
-
-
-
+     
     public class ItemRecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-
-
 
         @BindView(R.id.tv_recipeItemText)
         TextView mRecipeTextView;
+
+        @BindView(R.id.iv_recipePhoto)
+        ImageView mRecipeImageView;
+
+
 
 
         private int mIndex;
@@ -53,7 +58,19 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.It
         public void bindView(int position) {
             mIndex = position;
             recipe = mRecipes.get(position);
-            mRecipeTextView.setText(recipe.getRecipeName());
+            String mRecipeName = recipe.getRecipeName();
+            mRecipeTextView.setText(mRecipeName);
+
+            String mRecipeNameTrimmed = mRecipeName.replaceAll("\\s+","");
+
+
+            int ImageIdentifier = mRecipeImageView.getContext().getResources().getIdentifier(mRecipeNameTrimmed.toLowerCase(), "drawable", mRecipeImageView.getContext().getPackageName());
+
+
+            Picasso.with(mRecipeImageView.getContext())
+                    .load(ImageIdentifier)
+                    .into(mRecipeImageView);
+
         }
 
         @Override
@@ -63,9 +80,6 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.It
 
 
     }
-
-
-
 
     /* The adapter provides access to our data. It also provides the views for the displayed items.
     We create our custom recycler adapter by extending the RecyclerView.Adapter class.
@@ -78,14 +92,17 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.It
     public ItemRecyclerViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         Context context = viewGroup.getContext();
         int layoutIdForListItem = R.layout.recipe_list_item;
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View mView = inflater.inflate(layoutIdForListItem, viewGroup, false);
+        mInflater = LayoutInflater.from(context);
+        View mView = mInflater.inflate(layoutIdForListItem, viewGroup, false);
         return new ItemRecyclerViewHolder(mView);
     }
 
     @Override
     public void onBindViewHolder(ItemRecyclerViewHolder holder, int position) {
           holder.bindView(position);
+
+
+
     }
 
 

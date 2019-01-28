@@ -4,7 +4,7 @@
 
     <!--Internet Permission-->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!--to see if the user has network connection or not-->
+    <!--to check network connectivity:https://www.android-examples.com/check-internet-connection-in-android-programmatically/-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 

@@ -17,8 +17,10 @@ import com.example.android.bakingapp.ui.recipe.RecipeStepDetailFragment;
 public class StepDetailActivity extends AppCompatActivity    {
     public static final String STEP_FRAGMENT ="step_fragment";
 
-    public Step stepObj;
-    public Recipe recipeObj;
+    private Step stepObj;
+    private Recipe recipeObj;
+
+    private RecipeStepDetailFragment  fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +44,11 @@ public class StepDetailActivity extends AppCompatActivity    {
         }
 
 
-        RecipeStepDetailFragment  savedFragment = (RecipeStepDetailFragment) getSupportFragmentManager().findFragmentByTag(STEP_FRAGMENT);
+           fragment = (RecipeStepDetailFragment) getSupportFragmentManager().findFragmentByTag(STEP_FRAGMENT);
+        //https://stackoverflow.com/questions/5164126/retain-the-fragment-object-while-rotating
+        if (fragment == null && null == savedInstanceState) {
 
-        if (savedFragment == null) {
-
-            RecipeStepDetailFragment fragment = new RecipeStepDetailFragment();
+           fragment = new RecipeStepDetailFragment();
             Bundle bundle =new Bundle();
             bundle.putParcelable(RecipeStepDetailFragment.KEY_STEP_OBJ,stepObj);
             bundle.putParcelable(RecipeStepDetailFragment.KEY_RECIPE_OBJ,recipeObj);

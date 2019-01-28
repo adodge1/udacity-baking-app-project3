@@ -17,9 +17,14 @@ public class MainActivity extends AppCompatActivity  implements RecipeFragment.O
     public static final String RECIPE_FRAGMENT ="recipe_fragment";
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         setContentView(R.layout.main_activity);
 
         RecipeFragment savedFragment = (RecipeFragment) getSupportFragmentManager().findFragmentByTag(RECIPE_FRAGMENT);
@@ -40,6 +45,7 @@ public class MainActivity extends AppCompatActivity  implements RecipeFragment.O
 
         Intent intentToStartRecipeDetailActivity = new Intent(this, RecipeDetailActivity.class);
         intentToStartRecipeDetailActivity.putExtra("Recipe.Details",recipeClicked);
+        intentToStartRecipeDetailActivity.putExtra("Step.Details",recipeClicked.getRecipeSteps());
         this.startActivity(intentToStartRecipeDetailActivity);
 
 

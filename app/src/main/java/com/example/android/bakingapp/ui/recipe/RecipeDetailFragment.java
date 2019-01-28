@@ -29,6 +29,7 @@ public class RecipeDetailFragment extends Fragment {
 
     //put arguments in a bundle
     public static final String KEY_RECIPE_OBJ = "recipe_obj";
+    public static final String KEY_STEP_OBJ = "step_obj";
 
     private IngredientsListAdapter mIgredientListAdapter;
     private StepsListAdapter mStepListAdapter;

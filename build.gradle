@@ -19,7 +19,11 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven {
+            url 'https://google.bintray.com/exoplayer/'
+        }
     }
+
 }
 
 task clean(type: Delete) {
