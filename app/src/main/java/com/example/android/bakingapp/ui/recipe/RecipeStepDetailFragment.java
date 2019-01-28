@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 
+import com.example.android.bakingapp.RecipeDetailActivity;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
@@ -198,48 +199,57 @@ public class RecipeStepDetailFragment extends Fragment implements ExoPlayer.Even
                 NetworkUtils.createNoConnectionDialog(getContext());
             }
 
-
-
-            // If the RecipeStep is the first or last, hide the Previous or Next button
-            //and do not add the description because it is the same
             final int stepId = mSelectedStep.getStepId();
-            if (stepId == 0){
-                mPrevBtn.setVisibility(View.GONE);
+
+
+
+            if (getActivity().findViewById(R.id.twoPaneLayout) == null) {
+                // If the RecipeStep is the first or last, hide the Previous or Next button
+                //and do not add the description because it is the same
+
+                if (stepId == 0){
+                    mPrevBtn.setVisibility(View.GONE);
+                }else{
+                    mDescriptionTv.setText(mSelectedStep.getStepDescription());
+                }
+                if (bundle.getParcelable(KEY_RECIPE_OBJ) != null) {
+                    mSelectedRecipe = bundle.getParcelable(KEY_RECIPE_OBJ);
+                    ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(mSelectedRecipe.getRecipeName());
+
+                    if (stepId == mSelectedRecipe.getRecipeSteps().size() - 1){
+                        mNextBtn.setVisibility(View.GONE);
+                    }
+                }
+
+                // Open a fragment with the previous step
+                mPrevBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (stepId > 0) {
+                            mSelectedStep = mSelectedRecipe.getRecipeSteps().get(stepId - 1);
+                            launchNewFragment(mSelectedRecipe, mSelectedStep);
+                        }
+                    }
+                });
+
+                // Open a fragment with the next step
+                mNextBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (stepId < mSelectedRecipe.getRecipeSteps().size() - 1) {
+                            mSelectedStep = mSelectedRecipe.getRecipeSteps().get(stepId + 1);
+                            launchNewFragment(mSelectedRecipe, mSelectedStep);
+                        }
+                    }
+                });
             }else{
-                mDescriptionTv.setText(mSelectedStep.getStepDescription());
+                 if (stepId == 0){
+                    mDescriptionTv.setText(mSelectedStep.getStepDescription());
+                }
+                mNextBtn.setVisibility(View.GONE);
+                mPrevBtn.setVisibility(View.GONE);
+
             }
-            if (bundle.getParcelable(KEY_RECIPE_OBJ) != null) {
-                mSelectedRecipe = bundle.getParcelable(KEY_RECIPE_OBJ);
-                ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle(mSelectedRecipe.getRecipeName());
-
-                if (stepId == mSelectedRecipe.getRecipeSteps().size() - 1){
-                    mNextBtn.setVisibility(View.GONE);
-                }
-            }
-
-            // Open a fragment with the previous step
-            mPrevBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (stepId > 0) {
-                        mSelectedStep = mSelectedRecipe.getRecipeSteps().get(stepId - 1);
-                        launchNewFragment(mSelectedRecipe, mSelectedStep);
-                    }
-                }
-            });
-
-            // Open a fragment with the next step
-            mNextBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (stepId < mSelectedRecipe.getRecipeSteps().size() - 1) {
-                        mSelectedStep = mSelectedRecipe.getRecipeSteps().get(stepId + 1);
-                        launchNewFragment(mSelectedRecipe, mSelectedStep);
-                    }
-                }
-            });
-
-
         }
 
 
@@ -251,26 +261,16 @@ public class RecipeStepDetailFragment extends Fragment implements ExoPlayer.Even
 
     // Create a new StepDetailFragment
     public void launchNewFragment(Recipe recipe, Step step){
-        int layoutId;
-        // Inflate the layout in half the screen if it's a tablet in landscape
-       /* if (getResources().getBoolean(R.bool.isTablet) &&
-             getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
-            layoutId = R.id.recipe_step_container;
-        } else { // Otherwise use the full screen*/
-            layoutId = R.id.placeholder2;
-        //}
 
         RecipeStepDetailFragment stepDetailFragment = new RecipeStepDetailFragment();
-
         Bundle args = new Bundle();
         args.putParcelable(KEY_STEP_OBJ, step);
         args.putParcelable(KEY_RECIPE_OBJ, recipe);
 
         stepDetailFragment.setArguments(args);
-
         getActivity().getSupportFragmentManager()
                 .beginTransaction()
-                .replace(layoutId, stepDetailFragment)
+                .replace(R.id.placeholder2, stepDetailFragment)
                 .commit();
     }
 

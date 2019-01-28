@@ -63,15 +63,31 @@ public class StepsListAdapter extends RecyclerView.Adapter<StepsListAdapter.Step
             // Get the item clicked
              Step myStepSelected = mSteps.get(getAdapterPosition());
 
+            if (((RecipeDetailActivity) mContext).findViewById(R.id.twoPaneLayout) != null) {
+                mTwoPane = true;
+            }
 
-            Intent intentToStartStepDetailActivity = new Intent(mContext, StepDetailActivity.class);
-            intentToStartStepDetailActivity.putExtra("Step.Details", myStepSelected);
-            intentToStartStepDetailActivity.putExtra("Recipe.Info", mRecipe);
-            mContext.startActivity(intentToStartStepDetailActivity);
+            if(mTwoPane){
 
+                RecipeStepDetailFragment stepDetailFragment = new RecipeStepDetailFragment();
 
-            //call click interface here because this are buttons
-           // ((StepDetailActivity)mContext).onListStepSelected(getAdapterPosition(),myStepSelected);
+                Bundle args = new Bundle();
+                args.putParcelable(KEY_STEP_OBJ, myStepSelected);
+                args.putParcelable(KEY_RECIPE_OBJ, mRecipe);
+
+                stepDetailFragment.setArguments(args);
+                //https://stackoverflow.com/questions/34527115/start-fragment-from-recycleview-adapter-onclick
+                ((RecipeDetailActivity) mContext).getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.placeholder2, stepDetailFragment)
+                        .commit();
+
+            }else {
+                Intent intentToStartStepDetailActivity = new Intent(mContext, StepDetailActivity.class);
+                intentToStartStepDetailActivity.putExtra("Step.Details", myStepSelected);
+                intentToStartStepDetailActivity.putExtra("Recipe.Info", mRecipe);
+                mContext.startActivity(intentToStartStepDetailActivity);
+            }
+
 
 
         }
