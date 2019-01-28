@@ -34,7 +34,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
         try {
 
             mRecipeObj = intent.getParcelableExtra("Recipe.Details");
-            mStepObj = intent.getParcelableExtra("Step.Details");
+
             this.setTitle(mRecipeObj.getRecipeName());
 
         }catch (Exception e){
@@ -54,6 +54,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
 
 
                 if(mTwoPane){
+                    mStepObj = intent.getParcelableExtra("Step.Details");
 
                     RecipeDetailFragment savedFragment = (RecipeDetailFragment) getSupportFragmentManager().findFragmentByTag(RECIPE_DETAIL_FRAGMENT);
                     if (savedFragment == null) {
@@ -75,7 +76,6 @@ public class RecipeDetailActivity extends AppCompatActivity {
                         RecipeDetailFragment fragment = new RecipeDetailFragment();
                         Bundle bundle = new Bundle();
                         bundle.putParcelable(RecipeDetailFragment.KEY_RECIPE_OBJ, mRecipeObj);
-                        bundle.putParcelable(RecipeDetailFragment.KEY_STEP_OBJ, mStepObj);
                         fragment.setArguments(bundle);
                         fragmentTransaction.add(R.id.placeholder1, fragment, RECIPE_DETAIL_FRAGMENT);
                         fragmentTransaction.commit();

@@ -1,5 +1,6 @@
 package com.example.android.bakingapp.ui.recipe;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModelProviders;
 
 import android.content.Context;
@@ -21,12 +22,15 @@ import android.widget.ProgressBar;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.RecipeListAdapter;
+import com.example.android.bakingapp.database.FavoriteEntry;
+import com.example.android.bakingapp.model.Ingredient;
 import com.example.android.bakingapp.model.Recipe;
 import com.example.android.bakingapp.utils.NetworkUtils;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +44,8 @@ public class RecipeFragment  extends Fragment {
         void onListRecipeSelected(int index ,Recipe recipes);
 
     }
+
+
 
     private RecyclerView.LayoutManager layoutManager;
     private int mNumberColumns;
@@ -136,7 +142,25 @@ public class RecipeFragment  extends Fragment {
 
             if (results != null) {
                 mRecipeListAdapter.setRecipeData(results);
-            }
+
+
+                    /*Recipe recipe = results.get(1);
+
+                    String mRecipeName = recipe.getRecipeName();
+                    ArrayList<Ingredient> mRecipeIngredients = recipe.getRecipeIngredients();
+                    for (int j = 0; j < mRecipeIngredients.size(); j++) {
+
+                         allIngredients = allIngredients+" "+mRecipeIngredients.get(j).getIngredientName();
+                    }*/
+
+
+                   // FavoriteEntry favoriteEntry = new FavoriteEntry(  "testName","testIngredient other other and other");
+
+                   // mViewModel.insertFavorite(favoriteEntry);
+
+                }
+
+
         }
 
     }
@@ -147,6 +171,8 @@ public class RecipeFragment  extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(RecipeViewModel.class);
+
+
 
     }
 
