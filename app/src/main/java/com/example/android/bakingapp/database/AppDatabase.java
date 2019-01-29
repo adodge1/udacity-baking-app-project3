@@ -11,31 +11,27 @@ import android.util.Log;
 
 @Database(entities = {FavoriteEntry.class}, version = 1,exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
-
+//https://codelabs.developers.google.com/codelabs/android-room-with-a-view/#0
 
     private static final String LOG_TAG = AppDatabase.class.getSimpleName();
     private static final Object LOCK = new Object();
-    private static final String DATABASE_NAME = "favorite_movies";
-    private static AppDatabase sInstance;
+    private static final String DATABASE_NAME = "favorites";
+
+    private static volatile AppDatabase INSTANCE;
 
 
     // singleton to prevent having multiple instances of the database opened at the same time.
-    public static AppDatabase getDatabase(Context context) {
-        if (sInstance == null) {
+    public static AppDatabase getDatabase(final Context context) {
+        if (INSTANCE == null) {
             synchronized (LOCK) {
                 Log.d(LOG_TAG, "Creating new database instance");
-                sInstance = Room.databaseBuilder(context.getApplicationContext(),
+                INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                         AppDatabase.class, AppDatabase.DATABASE_NAME)
-                        // call allowMainThreadQueries before building the instance
-                        // Queries should be done in a separate thread to avoid locking the UI
-                        // We will allow this ONLY TEMPORALLY to see that our DB is working
-                        .allowMainThreadQueries()
-                        .addCallback(sRoomDatabaseCallback)
                         .build();
             }
         }
         Log.d(LOG_TAG, "Getting the database instance");
-        return sInstance;
+        return INSTANCE;
     }
 
 
@@ -44,7 +40,7 @@ public abstract class AppDatabase extends RoomDatabase {
                 @Override
                 public void onOpen (@NonNull SupportSQLiteDatabase db){
                     super.onOpen(db);
-                    new PopulateDbAsync(sInstance).execute();
+                    new PopulateDbAsync(INSTANCE).execute();
                 }
             };
 

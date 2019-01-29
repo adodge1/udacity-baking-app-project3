@@ -243,7 +243,7 @@ public class RecipeStepDetailFragment extends Fragment implements ExoPlayer.Even
                     }
                 });
             }else{
-                 if (stepId == 0){
+                 if (stepId != 0){
                     mDescriptionTv.setText(mSelectedStep.getStepDescription());
                 }
                 mNextBtn.setVisibility(View.GONE);

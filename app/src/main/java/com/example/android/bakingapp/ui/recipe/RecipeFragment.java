@@ -1,6 +1,7 @@
 package com.example.android.bakingapp.ui.recipe;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 
 import android.content.Context;
@@ -17,6 +18,7 @@ import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 
@@ -25,6 +27,7 @@ import com.example.android.bakingapp.RecipeListAdapter;
 import com.example.android.bakingapp.database.FavoriteEntry;
 import com.example.android.bakingapp.model.Ingredient;
 import com.example.android.bakingapp.model.Recipe;
+import com.example.android.bakingapp.model.Step;
 import com.example.android.bakingapp.utils.NetworkUtils;
 
 import java.io.IOException;
@@ -44,8 +47,9 @@ public class RecipeFragment  extends Fragment {
         void onListRecipeSelected(int index ,Recipe recipes);
 
     }
-
-
+    private ImageView mIvToggle;
+    public String favRecipeName = "";
+    public String favRecipeIngredients = "";
 
     private RecyclerView.LayoutManager layoutManager;
     private int mNumberColumns;
@@ -143,20 +147,16 @@ public class RecipeFragment  extends Fragment {
             if (results != null) {
                 mRecipeListAdapter.setRecipeData(results);
 
+                for (Recipe recipe:results)
+                {
 
-                    /*Recipe recipe = results.get(1);
-
-                    String mRecipeName = recipe.getRecipeName();
-                    ArrayList<Ingredient> mRecipeIngredients = recipe.getRecipeIngredients();
-                    for (int j = 0; j < mRecipeIngredients.size(); j++) {
-
-                         allIngredients = allIngredients+" "+mRecipeIngredients.get(j).getIngredientName();
-                    }*/
+                      favRecipeName = recipe.getRecipeName();
+                      favRecipeIngredients = "test";
+                    
+                }
 
 
-                   // FavoriteEntry favoriteEntry = new FavoriteEntry(  "testName","testIngredient other other and other");
 
-                   // mViewModel.insertFavorite(favoriteEntry);
 
                 }
 
@@ -171,6 +171,20 @@ public class RecipeFragment  extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(RecipeViewModel.class);
+
+        
+        
+       
+
+ 
+
+
+
+
+
+
+
+        
 
 
 

@@ -1,16 +1,23 @@
 package com.example.android.bakingapp;
 
+
 import android.content.Intent;
 import android.os.Bundle;
+
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+
 import android.widget.Toast;
+
 
 import com.example.android.bakingapp.model.Recipe;
 import com.example.android.bakingapp.model.Step;
 import com.example.android.bakingapp.ui.recipe.RecipeDetailFragment;
 import com.example.android.bakingapp.ui.recipe.RecipeStepDetailFragment;
+
+
+
 
 
 public class RecipeDetailActivity extends AppCompatActivity {
@@ -20,41 +27,46 @@ public class RecipeDetailActivity extends AppCompatActivity {
     private Step mStepObj;
     private boolean mTwoPane;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recipe_detail_activity);
 
+        if (findViewById(R.id.twoPaneLayout) != null) {
+            mTwoPane = true;
+        }
 
         final Intent intent = getIntent();
         if (intent == null) {
             closeOnError();
+
         }
         try {
 
             mRecipeObj = intent.getParcelableExtra("Recipe.Details");
-
+            if(mTwoPane) {
+                mStepObj = intent.getParcelableExtra("Step.Details");
+            }
             this.setTitle(mRecipeObj.getRecipeName());
+
+
+
+
 
         }catch (Exception e){
 
             e.printStackTrace();
         }
 
-        if (findViewById(R.id.twoPaneLayout) != null) {
-            mTwoPane = true;
-        }
 
 
 
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
 
                 if(mTwoPane){
-                    mStepObj = intent.getParcelableExtra("Step.Details");
+
 
                     RecipeDetailFragment savedFragment = (RecipeDetailFragment) getSupportFragmentManager().findFragmentByTag(RECIPE_DETAIL_FRAGMENT);
                     if (savedFragment == null) {

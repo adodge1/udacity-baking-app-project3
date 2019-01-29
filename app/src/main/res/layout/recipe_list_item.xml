@@ -19,6 +19,8 @@
         android:background="@color/colorAccent"
         />
 
+
+
     <ImageView
         android:id="@+id/iv_recipePhoto"
         android:adjustViewBounds="true"
@@ -28,4 +30,6 @@
         android:paddingTop="0dp"
         android:layout_width="match_parent"
         />
+
+
 </LinearLayout>

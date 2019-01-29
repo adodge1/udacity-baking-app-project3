@@ -14,12 +14,12 @@ public class FavoriteRepository {
     public FavoriteRepository(Application application) {
         AppDatabase db = AppDatabase.getDatabase(application);
         mFavDao = db.favoriteDao();
-        mAllFavorites = mFavDao.loadAllFavorites();
+        mAllFavorites = mFavDao.getAllFavorites();
     }
 
     //Add a wrapper for getAllFavorites(). Room executes all queries on a separate thread.
     // Observed LiveData will notify the observer when the data has changed.
-    public LiveData<List<FavoriteEntry>> getAllFavorites() {
+   LiveData<List<FavoriteEntry>> getAllFavorites() {
         return mAllFavorites;
     }
 

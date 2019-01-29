@@ -1,20 +1,31 @@
 package com.example.android.bakingapp;
 
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageView;
 
+import com.example.android.bakingapp.database.FavoriteEntry;
 import com.example.android.bakingapp.model.Recipe;
 import com.example.android.bakingapp.ui.recipe.RecipeDetailFragment;
 import com.example.android.bakingapp.ui.recipe.RecipeFragment;
+import com.example.android.bakingapp.ui.recipe.RecipeViewModel;
+
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity  implements RecipeFragment.OnRecipeSelectedInterface  {
 
     public static final String RECIPE_FRAGMENT ="recipe_fragment";
+
 
 
 
@@ -37,6 +48,10 @@ public class MainActivity extends AppCompatActivity  implements RecipeFragment.O
             fragmentTransaction.add(R.id.placeholder,fragment,RECIPE_FRAGMENT);
             fragmentTransaction.commit();
         }
+
+
+
+
     }
 
     @Override

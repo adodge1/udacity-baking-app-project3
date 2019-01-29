@@ -34,7 +34,7 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.It
         mListener = listener;
     }
 
-     
+
     public class ItemRecyclerViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.tv_recipeItemText)
@@ -100,9 +100,6 @@ public class RecipeListAdapter extends RecyclerView.Adapter<RecipeListAdapter.It
     @Override
     public void onBindViewHolder(ItemRecyclerViewHolder holder, int position) {
           holder.bindView(position);
-
-
-
     }
 
 

@@ -6,15 +6,16 @@ import android.arch.persistence.room.Entity;
 
 import android.arch.persistence.room.Ignore;
 
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 
-@Entity(tableName = "favorite_table",primaryKeys={"recipe_name"})
+@Entity(tableName = "favorite_table")
 public class FavoriteEntry implements Parcelable {
 
-
+    @PrimaryKey
     @NonNull
     @ColumnInfo(name = "recipe_name")
     private String recipeName;
@@ -48,8 +49,8 @@ public class FavoriteEntry implements Parcelable {
         return this.recipeIngredient;
     }
 
-    public void setRecipeIngredient(String ingredients) {
-        this.recipeIngredient = ingredients;
+    public void setRecipeIngredient(String ingredient) {
+        this.recipeIngredient = ingredient;
     }
 
 

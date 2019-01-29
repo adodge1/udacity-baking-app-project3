@@ -1,24 +1,35 @@
 package com.example.android.bakingapp.ui.recipe;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
 import com.example.android.bakingapp.R;
 
+import com.example.android.bakingapp.database.AppDatabase;
+import com.example.android.bakingapp.database.FavoriteDao;
+import com.example.android.bakingapp.database.FavoriteEntry;
 import com.example.android.bakingapp.model.Recipe;
 
 
 import com.example.android.bakingapp.utils.IngredientsListAdapter;
 import com.example.android.bakingapp.utils.StepsListAdapter;
+
+import java.util.List;
 
 
 public class RecipeDetailFragment extends Fragment {
@@ -35,7 +46,19 @@ public class RecipeDetailFragment extends Fragment {
     private StepsListAdapter mStepListAdapter;
     private Recipe mRecipeClicked;
 
-   @Nullable
+    private RecipeViewModel recipeViewModel;
+    private Context context;
+    private ImageView mIvToggle;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+
+    }
+
+
+    @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -47,6 +70,8 @@ public class RecipeDetailFragment extends Fragment {
 
         //   Toast.makeText(getActivity(),recipeClicked.getRecipeName(), Toast.LENGTH_SHORT).show();
         getActivity().setTitle(mRecipeClicked.getRecipeName());//set the title but put it back the old one onStop()
+
+
 
 
        View view = inflater.inflate(R.layout.ingredients_steps_fragment,container,false);
@@ -69,6 +94,52 @@ public class RecipeDetailFragment extends Fragment {
                = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
        recyclerViewSteps.setLayoutManager(layoutManagerSteps);
          mStepListAdapter.setStepData(mRecipeClicked.getRecipeSteps());
+
+        // Create a TaskListViewModel instance
+        final RecipeViewModel mRecipesViewModel = ViewModelProviders.of(this).get(RecipeViewModel.class);
+
+
+        LiveData<List<FavoriteEntry>> mAllFavorites = mRecipesViewModel.getAllFavorites();
+
+        mAllFavorites.observe(this,
+                new Observer<List<FavoriteEntry>>() {
+                    @Override
+                    public void onChanged(@Nullable final List<FavoriteEntry> favoriteMovieEntries) {
+                        if (favoriteMovieEntries != null) {
+                            if (favoriteMovieEntries.size() > 0 ) {
+                                for (FavoriteEntry temp : favoriteMovieEntries) {
+                                    String favoriteName = temp.getRecipeName();
+                                    if(favoriteName.equals(mRecipeClicked.getRecipeName())){
+                                        mIvToggle.setActivated(true);
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+                });
+
+        mIvToggle =  view.findViewById(R.id.iv_toggle);
+        mIvToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(!mIvToggle.isActivated()){
+                    mIvToggle.setActivated(true);
+                    ///INSERT
+
+                    ///INSERT
+                    FavoriteEntry favorite = new FavoriteEntry(mRecipeClicked.getRecipeName(),"ingredient 1, ingredient 2");
+                    mRecipesViewModel.insertFavorite(favorite);
+
+                }else{
+
+                    mIvToggle.setActivated(false);
+                    mRecipesViewModel.deleteFavorite(mRecipeClicked.getRecipeName());
+                    //removeData(mRecipeClicked.getRecipeName());
+
+                }
+            }
+        });
         return view;
     }
 
@@ -79,4 +150,11 @@ public class RecipeDetailFragment extends Fragment {
         super.onStop();
         getActivity().setTitle(mRecipeClicked.getRecipeName());
     }
+
+
+
+
+
+
+
 }

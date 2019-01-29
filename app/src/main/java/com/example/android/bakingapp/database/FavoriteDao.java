@@ -13,12 +13,12 @@ import java.util.List;
 public interface FavoriteDao {
 
     @Query("SELECT * FROM favorite_table ORDER BY recipe_name")
-    LiveData<List<FavoriteEntry>> loadAllFavorites();
+    LiveData<List<FavoriteEntry>> getAllFavorites();
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertFavorite(FavoriteEntry favEntry);
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
+    @Update
     void updateFavorite(FavoriteEntry favEntry);
 
     @Query("DELETE FROM favorite_table WHERE recipe_name = :recipe_name")

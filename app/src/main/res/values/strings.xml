@@ -27,4 +27,9 @@
 
     <!--Content description for loading bar-->
     <string name="loading">Loading...</string>
+
+
+    <string name="favoriteTitle">Save recipe to favorites</string>
+    <string name="toggle_turn_on">Save recipe to favorites</string>
+    <string name="toggle_turn_off">Remove from favorites</string>
 </resources>
