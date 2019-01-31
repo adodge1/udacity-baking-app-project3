@@ -45,8 +45,29 @@ public class RecipeViewModel extends AndroidViewModel {
             mAsyncTaskDao.insertFavorite(params[0]);
             return null;
         }
+
+
     }
 
-    public void deleteFavorite(String favoriteMovieId) { repository.deleteRepoFav(favoriteMovieId);}
+    public void deleteFavorite(String favoriteName) {
+        new deleteAsyncTask(mFaveDao).execute(favoriteName);
+    }
+
+    private static class deleteAsyncTask extends AsyncTask<String, Void, Void> {
+
+        private FavoriteDao mAsyncTaskDao;
+
+        deleteAsyncTask(FavoriteDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final String... params) {
+            mAsyncTaskDao.deleteFavorite(params[0]);
+            return null;
+        }
+
+
+    }
 
 }

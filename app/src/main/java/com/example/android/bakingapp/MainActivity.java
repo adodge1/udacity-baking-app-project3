@@ -18,6 +18,7 @@ import com.example.android.bakingapp.model.Recipe;
 import com.example.android.bakingapp.ui.recipe.RecipeDetailFragment;
 import com.example.android.bakingapp.ui.recipe.RecipeFragment;
 import com.example.android.bakingapp.ui.recipe.RecipeViewModel;
+import com.facebook.stetho.Stetho;
 
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity  implements RecipeFragment.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
+        Stetho.initializeWithDefaults(this);
 
         setContentView(R.layout.main_activity);
 

@@ -21,11 +21,13 @@ public interface FavoriteDao {
     @Update
     void updateFavorite(FavoriteEntry favEntry);
 
-    @Query("DELETE FROM favorite_table WHERE recipe_name = :recipe_name")
+    @Query("DELETE FROM favorite_table WHERE recipe_name=:recipe_name")
     void deleteFavorite(String recipe_name);
 
     @Query("DELETE FROM favorite_table")
     void deleteAll();
+
+
 
 
 

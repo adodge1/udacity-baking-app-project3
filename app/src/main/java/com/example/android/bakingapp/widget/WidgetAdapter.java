@@ -1,18 +1,30 @@
 package com.example.android.bakingapp.widget;
 
+import android.arch.lifecycle.LifecycleOwner;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
+import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
+import com.example.android.bakingapp.database.AppDatabase;
+import com.example.android.bakingapp.database.FavoriteEntry;
 
-public class WidgetAdapter implements RemoteViewsService.RemoteViewsFactory {
+import java.util.List;
+
+public class WidgetAdapter implements RemoteViewsService.RemoteViewsFactory  {
     Context mContext;
 
+    LiveData<List<FavoriteEntry>> mRecipeList;
 
 
     String[] list = {"Nutella Pie","Brownies","Yellow Cake","Cheesecake"};
+
+    String favoriteName;
 
 
 
@@ -28,6 +40,11 @@ public class WidgetAdapter implements RemoteViewsService.RemoteViewsFactory {
     @Override
     public void onDataSetChanged() {
 
+       AppDatabase db = AppDatabase.getDatabase(mContext);
+
+        mRecipeList = db.favoriteDao().getAllFavorites();
+
+
     }
 
     @Override
@@ -41,14 +58,35 @@ public class WidgetAdapter implements RemoteViewsService.RemoteViewsFactory {
     }
 
     @Override
-    public RemoteViews getViewAt(int position) {
-        RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(), R.layout.widget_list_item);
-        remoteViews.setTextViewText(R.id.widget_tv,list[position]);
+    public RemoteViews getViewAt(final int position) {
+        final RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(), R.layout.widget_list_item);
+
+
+      /*  mRecipeList.observeForever(new Observer<List<FavoriteEntry>>() {
+            @Override
+            public void onChanged(@Nullable final List<FavoriteEntry> fave) {
+                if (fave != null) {
+                    if (fave.size() > 0 ) {
+                        for (FavoriteEntry temp : fave) {
+                            favoriteName = temp.getRecipeName();
+
+                        }
+                    }
+                }
+
+            }
+        });
+
+        mRecipeList.removeObserver((Observer<List<FavoriteEntry>>)this);*/
+
+
+        remoteViews.setTextViewText(R.id.widget_tv, list[position]);
         Intent intent =new Intent();
         intent.putExtra(WidgetProvider.WIDGET_KEY_ITEM,list[position]);
         remoteViews.setOnClickFillInIntent(R.id.widget_rv, intent);
         return remoteViews;
     }
+
 
     @Override
     public RemoteViews getLoadingView() {
@@ -57,7 +95,7 @@ public class WidgetAdapter implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public int getViewTypeCount() {
-        return 1;
+        return list.length;
     }
 
     @Override
@@ -69,4 +107,6 @@ public class WidgetAdapter implements RemoteViewsService.RemoteViewsFactory {
     public boolean hasStableIds() {
         return true;
     }
+
+
 }

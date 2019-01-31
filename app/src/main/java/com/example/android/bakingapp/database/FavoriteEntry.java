@@ -70,6 +70,7 @@ public class FavoriteEntry implements Parcelable {
         return 0;
     }
 
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 

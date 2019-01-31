@@ -3,6 +3,8 @@ package com.example.android.bakingapp.widget;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -11,12 +13,19 @@ import android.widget.Toast;
 
 
 import com.example.android.bakingapp.R;
+import com.example.android.bakingapp.database.FavoriteEntry;
+import com.example.android.bakingapp.ui.recipe.RecipeViewModel;
 
+import java.util.List;
+
+//https://stackoverflow.com/questions/21337220/get-data-from-database-in-android-widget
+//https://stackoverflow.com/questions/51973927/android-how-to-access-room-database-from-widget
 
 public class WidgetProvider extends AppWidgetProvider {
 
 public static final String WIDGET_KEY_ITEM = "com.example.widget.WIDGET_KEY_ITEM";
 public static final String WIDGET_TOAST_ACTION ="com.example.widget.WIDGET_TOAST_ACTION";
+
 
     //to handle the click of each item inside the widget
     @Override
@@ -47,12 +56,23 @@ public static final String WIDGET_TOAST_ACTION ="com.example.widget.WIDGET_TOAST
             Intent serviceIntent = new Intent(context,WidgetService.class);
             remoteViews.setRemoteAdapter(R.id.widget_lv, serviceIntent);
 
+
+
+           // LiveData<List<FavoriteEntry>> mAllFavorites = co
+
+
            /* int r = (int)(Math.random() * 0xff);
             int g = (int)(Math.random() * 0xff);
             int b = (int)(Math.random() * 0xff);
             int color = (0xff << 24) + (r << 16) + (g << 8) + b;
 
             remoteViews.setInt(R.id.frameLayout,"setBackgroundColor",color);*/
+
+           /*Launch URL*/
+           /* Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://code.tutsplus.com/"));
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+            views.setOnClickPendingIntent(R.id.launch_url, pendingIntent);
+            appWidgetManager.updateAppWidget(appWidgetId, views);*/
 
             // need an intent
             Intent intent = new Intent(context, WidgetProvider.class);
@@ -66,7 +86,11 @@ public static final String WIDGET_TOAST_ACTION ="com.example.widget.WIDGET_TOAST
 
             remoteViews.setPendingIntentTemplate(R.id.widget_lv,pendingIntent);
 
+            //appWidgetManager.notifyAppWidgetViewDataChanged(id, R.id.widget_lv);
+
+
             appWidgetManager.updateAppWidget(id,remoteViews);
+
 
         }
     }

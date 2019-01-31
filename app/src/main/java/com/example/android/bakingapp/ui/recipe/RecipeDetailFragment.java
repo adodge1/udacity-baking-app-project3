@@ -97,7 +97,7 @@ public class RecipeDetailFragment extends Fragment {
 
         // Create a TaskListViewModel instance
         final RecipeViewModel mRecipesViewModel = ViewModelProviders.of(this).get(RecipeViewModel.class);
-
+        final String favName = mRecipeClicked.getRecipeName();
 
         LiveData<List<FavoriteEntry>> mAllFavorites = mRecipesViewModel.getAllFavorites();
 
@@ -109,7 +109,7 @@ public class RecipeDetailFragment extends Fragment {
                             if (favoriteMovieEntries.size() > 0 ) {
                                 for (FavoriteEntry temp : favoriteMovieEntries) {
                                     String favoriteName = temp.getRecipeName();
-                                    if(favoriteName.equals(mRecipeClicked.getRecipeName())){
+                                    if(favoriteName.equals(favName)){
                                         mIvToggle.setActivated(true);
                                     }
                                 }
@@ -125,17 +125,16 @@ public class RecipeDetailFragment extends Fragment {
             public void onClick(View view) {
                 if(!mIvToggle.isActivated()){
                     mIvToggle.setActivated(true);
-                    ///INSERT
 
                     ///INSERT
-                    FavoriteEntry favorite = new FavoriteEntry(mRecipeClicked.getRecipeName(),"ingredient 1, ingredient 2");
+                    FavoriteEntry favorite = new FavoriteEntry(favName,"ingredient 1, ingredient 2");
                     mRecipesViewModel.insertFavorite(favorite);
 
                 }else{
 
                     mIvToggle.setActivated(false);
-                    mRecipesViewModel.deleteFavorite(mRecipeClicked.getRecipeName());
-                    //removeData(mRecipeClicked.getRecipeName());
+                    mRecipesViewModel.deleteFavorite(favName);
+
 
                 }
             }
