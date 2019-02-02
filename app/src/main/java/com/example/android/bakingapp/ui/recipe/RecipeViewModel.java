@@ -16,7 +16,7 @@ public class RecipeViewModel extends AndroidViewModel {
 
     private FavoriteDao mFaveDao;
     private LiveData<List<FavoriteEntry>> mAllFavoriteMovies;
-    private FavoriteRepository repository;
+
 
 
     public RecipeViewModel (Application application) {

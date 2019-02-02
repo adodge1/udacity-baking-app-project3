@@ -5,10 +5,12 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.os.Binder;
 import android.support.annotation.Nullable;
+import android.widget.AdapterView;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
-import android.widget.TextView;
 
 import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.database.AppDatabase;
@@ -17,15 +19,14 @@ import com.example.android.bakingapp.database.FavoriteEntry;
 import java.util.List;
 
 public class WidgetAdapter implements RemoteViewsService.RemoteViewsFactory  {
-    Context mContext;
+    private  Context mContext;
 
-    LiveData<List<FavoriteEntry>> mRecipeList;
+    private Cursor mCursor;
 
 
-    String[] list = {"Nutella Pie","Brownies","Yellow Cake","Cheesecake"};
+   // String[] list = {"Nutella Pie","Brownies","Yellow Cake","Cheesecake"};
 
-    String favoriteName;
-
+    String[] list;
 
 
     public WidgetAdapter(Context context){
@@ -35,54 +36,49 @@ public class WidgetAdapter implements RemoteViewsService.RemoteViewsFactory  {
     @Override
     public void onCreate() {
 
+
     }
 
     @Override
     public void onDataSetChanged() {
+        if (mCursor != null) {
+            mCursor.close();
+        }
 
-       AppDatabase db = AppDatabase.getDatabase(mContext);
+        final long identityToken = Binder.clearCallingIdentity();
+        AppDatabase db = AppDatabase.getDatabase(mContext);
+        mCursor = db.favoriteDao().getCursorAll();
 
-        mRecipeList = db.favoriteDao().getAllFavorites();
+        Binder.restoreCallingIdentity(identityToken);
 
 
     }
 
     @Override
     public void onDestroy() {
-
+        if (mCursor != null) {
+            mCursor.close();
+        }
     }
 
     @Override
     public int getCount() {
-        return list.length;
+        return mCursor == null ? 0 : mCursor.getCount();
     }
 
     @Override
     public RemoteViews getViewAt(final int position) {
+
+        if (position == AdapterView.INVALID_POSITION ||
+                mCursor == null || !mCursor.moveToPosition(position)) {
+            return null;
+        }
+
         final RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(), R.layout.widget_list_item);
 
-
-      /*  mRecipeList.observeForever(new Observer<List<FavoriteEntry>>() {
-            @Override
-            public void onChanged(@Nullable final List<FavoriteEntry> fave) {
-                if (fave != null) {
-                    if (fave.size() > 0 ) {
-                        for (FavoriteEntry temp : fave) {
-                            favoriteName = temp.getRecipeName();
-
-                        }
-                    }
-                }
-
-            }
-        });
-
-        mRecipeList.removeObserver((Observer<List<FavoriteEntry>>)this);*/
-
-
-        remoteViews.setTextViewText(R.id.widget_tv, list[position]);
+        remoteViews.setTextViewText(R.id.widget_tv, mCursor.getString(1));
         Intent intent =new Intent();
-        intent.putExtra(WidgetProvider.WIDGET_KEY_ITEM,list[position]);
+        intent.putExtra(WidgetProvider.WIDGET_KEY_ITEM,mCursor.getString(1));
         remoteViews.setOnClickFillInIntent(R.id.widget_rv, intent);
         return remoteViews;
     }
@@ -95,18 +91,20 @@ public class WidgetAdapter implements RemoteViewsService.RemoteViewsFactory  {
 
     @Override
     public int getViewTypeCount() {
-        return list.length;
+        return mCursor == null ? 0 : mCursor.getCount();
     }
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return mCursor.moveToPosition(position) ? mCursor.getLong(0) : position;
     }
 
     @Override
     public boolean hasStableIds() {
         return true;
     }
+
+
 
 
 }

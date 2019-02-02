@@ -23,6 +23,7 @@ import com.example.android.bakingapp.R;
 import com.example.android.bakingapp.database.AppDatabase;
 import com.example.android.bakingapp.database.FavoriteDao;
 import com.example.android.bakingapp.database.FavoriteEntry;
+import com.example.android.bakingapp.model.Ingredient;
 import com.example.android.bakingapp.model.Recipe;
 
 
@@ -49,6 +50,8 @@ public class RecipeDetailFragment extends Fragment {
     private RecipeViewModel recipeViewModel;
     private Context context;
     private ImageView mIvToggle;
+
+    String favAllIngredients;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,6 +102,8 @@ public class RecipeDetailFragment extends Fragment {
         final RecipeViewModel mRecipesViewModel = ViewModelProviders.of(this).get(RecipeViewModel.class);
         final String favName = mRecipeClicked.getRecipeName();
 
+        final List<Ingredient> mIngredients = mRecipeClicked.getRecipeIngredients();
+
         LiveData<List<FavoriteEntry>> mAllFavorites = mRecipesViewModel.getAllFavorites();
 
         mAllFavorites.observe(this,
@@ -125,9 +130,18 @@ public class RecipeDetailFragment extends Fragment {
             public void onClick(View view) {
                 if(!mIvToggle.isActivated()){
                     mIvToggle.setActivated(true);
-
+                    favAllIngredients =favName +"\n";
                     ///INSERT
-                    FavoriteEntry favorite = new FavoriteEntry(favName,"ingredient 1, ingredient 2");
+                    for(int i=0; i<mIngredients.size(); i++) {
+                        Ingredient currentX = mIngredients.get(i);
+
+
+                        favAllIngredients = favAllIngredients+"\n"+currentX.getIngredientName()+" "+currentX.getIngredientUnit()+" ("+currentX.getIngredientQuantity()+")";
+
+
+                    }
+
+                    FavoriteEntry favorite = new FavoriteEntry(favName,favAllIngredients);
                     mRecipesViewModel.insertFavorite(favorite);
 
                 }else{
