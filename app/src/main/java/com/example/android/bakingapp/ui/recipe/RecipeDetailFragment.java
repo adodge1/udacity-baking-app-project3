@@ -130,14 +130,16 @@ public class RecipeDetailFragment extends Fragment {
             public void onClick(View view) {
                 if(!mIvToggle.isActivated()){
                     mIvToggle.setActivated(true);
-                    favAllIngredients =favName +"\n";
+
                     ///INSERT
                     for(int i=0; i<mIngredients.size(); i++) {
                         Ingredient currentX = mIngredients.get(i);
 
-
-                        favAllIngredients = favAllIngredients+"\n"+currentX.getIngredientName()+" "+currentX.getIngredientUnit()+" ("+currentX.getIngredientQuantity()+")";
-
+                        if(favAllIngredients!= null) {
+                            favAllIngredients = favAllIngredients + "\n" + currentX.getIngredientName() + " " + currentX.getIngredientUnit() + " (" + currentX.getIngredientQuantity() + ")";
+                        }else{
+                            favAllIngredients = currentX.getIngredientName() + " " + currentX.getIngredientUnit() + " (" + currentX.getIngredientQuantity() + ")";
+                        }
 
                     }
 

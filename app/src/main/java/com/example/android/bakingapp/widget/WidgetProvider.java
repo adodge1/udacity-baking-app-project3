@@ -58,21 +58,7 @@ public static final String WIDGET_TOAST_ACTION ="com.example.widget.WIDGET_TOAST
 
 
 
-           // LiveData<List<FavoriteEntry>> mAllFavorites = co
-
-
-           /* int r = (int)(Math.random() * 0xff);
-            int g = (int)(Math.random() * 0xff);
-            int b = (int)(Math.random() * 0xff);
-            int color = (0xff << 24) + (r << 16) + (g << 8) + b;
-
-            remoteViews.setInt(R.id.frameLayout,"setBackgroundColor",color);*/
-
-           /*Launch URL*/
-           /* Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://code.tutsplus.com/"));
-            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-            views.setOnClickPendingIntent(R.id.launch_url, pendingIntent);
-            appWidgetManager.updateAppWidget(appWidgetId, views);*/
+           
 
             // need an intent
             Intent intent = new Intent(context, WidgetProvider.class);
