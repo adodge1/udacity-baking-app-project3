@@ -25,6 +25,9 @@ public interface FavoriteDao {
     @Query("DELETE FROM favorite_table WHERE recipe_name=:recipe_name")
     void deleteFavorite(String recipe_name);
 
+    @Query("SELECT recipe_name FROM favorite_table WHERE recipe_name=:recipe_name")
+    String findFavorite(String recipe_name);
+
     @Query("DELETE FROM favorite_table")
     void deleteAll();
 

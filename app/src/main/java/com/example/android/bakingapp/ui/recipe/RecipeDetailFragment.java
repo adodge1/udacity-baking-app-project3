@@ -143,6 +143,8 @@ public class RecipeDetailFragment extends Fragment {
 
                     }
 
+                    favAllIngredients = favName  + "\n" + favAllIngredients;
+
                     FavoriteEntry favorite = new FavoriteEntry(favName,favAllIngredients);
                     mRecipesViewModel.insertFavorite(favorite);
 

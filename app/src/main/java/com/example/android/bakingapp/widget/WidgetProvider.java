@@ -58,7 +58,7 @@ public static final String WIDGET_TOAST_ACTION ="com.example.widget.WIDGET_TOAST
 
 
 
-           
+
 
             // need an intent
             Intent intent = new Intent(context, WidgetProvider.class);
