@@ -10,4 +10,6 @@ public class WidgetService extends RemoteViewsService {
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
         return new WidgetAdapter(this);
     }
+
+
 }

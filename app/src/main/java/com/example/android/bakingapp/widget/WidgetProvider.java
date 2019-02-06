@@ -27,6 +27,8 @@ public static final String WIDGET_KEY_ITEM = "com.example.widget.WIDGET_KEY_ITEM
 public static final String WIDGET_TOAST_ACTION ="com.example.widget.WIDGET_TOAST_ACTION";
 
 
+
+
     //to handle the click of each item inside the widget
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -62,9 +64,9 @@ public static final String WIDGET_TOAST_ACTION ="com.example.widget.WIDGET_TOAST
 
             // need an intent
             Intent intent = new Intent(context, WidgetProvider.class);
-
-            //intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-            intent.setAction(WIDGET_TOAST_ACTION);
+          //  String  listItem = intent.getStringExtra(WIDGET_KEY_ITEM);
+           // intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+             intent.setAction(WIDGET_TOAST_ACTION);
 
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS,realAppWidgetIds);
             //need pending intent
@@ -72,10 +74,12 @@ public static final String WIDGET_TOAST_ACTION ="com.example.widget.WIDGET_TOAST
 
             remoteViews.setPendingIntentTemplate(R.id.widget_lv,pendingIntent);
 
-            //appWidgetManager.notifyAppWidgetViewDataChanged(id, R.id.widget_lv);
+
 
 
             appWidgetManager.updateAppWidget(id,remoteViews);
+            appWidgetManager.notifyAppWidgetViewDataChanged(id, R.id.widget_lv);
+
 
 
         }
